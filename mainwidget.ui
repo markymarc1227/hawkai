@@ -33,7 +33,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
-    <normaloff>:/img_resources/Icon.png</normaloff>:/img_resources/Icon.png</iconset>
+    <normaloff>:/img_resources/new_icon.png</normaloff>:/img_resources/new_icon.png</iconset>
   </property>
   <property name="windowOpacity">
    <double>1.000000000000000</double>
@@ -41,7 +41,7 @@
   <property name="autoFillBackground">
    <bool>false</bool>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>21</x>
@@ -57,7 +57,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="resources.qrc">:/img_resources/Window-resized.png</pixmap>
+       <pixmap resource="resources.qrc">:/img_resources/new_banner.png</pixmap>
       </property>
      </widget>
     </item>

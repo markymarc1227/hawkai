@@ -33,25 +33,25 @@ class Ui_MainWidget(object):
         MainWidget.setCursor(QCursor(Qt.ArrowCursor))
         MainWidget.setMouseTracking(False)
         icon = QIcon()
-        icon.addFile(u":/img_resources/Icon.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/img_resources/new_icon.png", QSize(), QIcon.Normal, QIcon.Off)
         MainWidget.setWindowIcon(icon)
         MainWidget.setWindowOpacity(1.000000000000000)
         MainWidget.setAutoFillBackground(False)
-        self.widget = QWidget(MainWidget)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(21, 2, 603, 674))
-        self.verticalLayout_8 = QVBoxLayout(self.widget)
+        self.layoutWidget = QWidget(MainWidget)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(21, 2, 603, 674))
+        self.verticalLayout_8 = QVBoxLayout(self.layoutWidget)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
         self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
-        self.banner = QLabel(self.widget)
+        self.banner = QLabel(self.layoutWidget)
         self.banner.setObjectName(u"banner")
-        self.banner.setPixmap(QPixmap(u":/img_resources/Window-resized.png"))
+        self.banner.setPixmap(QPixmap(u":/img_resources/new_banner.png"))
 
         self.verticalLayout_8.addWidget(self.banner)
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.time_comp = QLabel(self.widget)
+        self.time_comp = QLabel(self.layoutWidget)
         self.time_comp.setObjectName(u"time_comp")
         font = QFont()
         font.setFamilies([u"OCR A Extended"])
@@ -64,7 +64,7 @@ class Ui_MainWidget(object):
 
         self.horizontalLayout.addWidget(self.time_comp)
 
-        self.date_comp = QLabel(self.widget)
+        self.date_comp = QLabel(self.layoutWidget)
         self.date_comp.setObjectName(u"date_comp")
         self.date_comp.setFont(font)
         self.date_comp.setLayoutDirection(Qt.LeftToRight)
@@ -73,7 +73,7 @@ class Ui_MainWidget(object):
 
         self.horizontalLayout.addWidget(self.date_comp)
 
-        self.day_comp = QLabel(self.widget)
+        self.day_comp = QLabel(self.layoutWidget)
         self.day_comp.setObjectName(u"day_comp")
         self.day_comp.setFont(font)
         self.day_comp.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
@@ -92,7 +92,7 @@ class Ui_MainWidget(object):
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.video_frame_0 = clickable_Qlabel(self.widget)
+        self.video_frame_0 = clickable_Qlabel(self.layoutWidget)
         self.video_frame_0.setObjectName(u"video_frame_0")
         self.video_frame_0.setMinimumSize(QSize(240, 180))
         self.video_frame_0.setMaximumSize(QSize(240, 180))
@@ -109,7 +109,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout.addWidget(self.video_frame_0)
 
-        self.loc_0 = doubleClickable_QLineEdit(self.widget)
+        self.loc_0 = doubleClickable_QLineEdit(self.layoutWidget)
         self.loc_0.setObjectName(u"loc_0")
         self.loc_0.setMaxLength(36)
         self.loc_0.setReadOnly(False)
@@ -126,7 +126,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.video_frame_1 = clickable_Qlabel(self.widget)
+        self.video_frame_1 = clickable_Qlabel(self.layoutWidget)
         self.video_frame_1.setObjectName(u"video_frame_1")
         self.video_frame_1.setMinimumSize(QSize(240, 180))
         self.video_frame_1.setMaximumSize(QSize(240, 180))
@@ -138,7 +138,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_2.addWidget(self.video_frame_1)
 
-        self.loc_1 = doubleClickable_QLineEdit(self.widget)
+        self.loc_1 = doubleClickable_QLineEdit(self.layoutWidget)
         self.loc_1.setObjectName(u"loc_1")
         self.loc_1.setMaxLength(36)
 
@@ -158,7 +158,7 @@ class Ui_MainWidget(object):
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.verticalLayout_3 = QVBoxLayout()
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.video_frame_2 = clickable_Qlabel(self.widget)
+        self.video_frame_2 = clickable_Qlabel(self.layoutWidget)
         self.video_frame_2.setObjectName(u"video_frame_2")
         self.video_frame_2.setMinimumSize(QSize(240, 180))
         self.video_frame_2.setMaximumSize(QSize(240, 180))
@@ -170,7 +170,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_3.addWidget(self.video_frame_2)
 
-        self.loc_2 = doubleClickable_QLineEdit(self.widget)
+        self.loc_2 = doubleClickable_QLineEdit(self.layoutWidget)
         self.loc_2.setObjectName(u"loc_2")
         self.loc_2.setMaxLength(36)
 
@@ -185,7 +185,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_4 = QVBoxLayout()
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.video_frame_3 = clickable_Qlabel(self.widget)
+        self.video_frame_3 = clickable_Qlabel(self.layoutWidget)
         self.video_frame_3.setObjectName(u"video_frame_3")
         self.video_frame_3.setMinimumSize(QSize(240, 180))
         self.video_frame_3.setMaximumSize(QSize(240, 180))
@@ -197,7 +197,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_4.addWidget(self.video_frame_3)
 
-        self.loc_3 = doubleClickable_QLineEdit(self.widget)
+        self.loc_3 = doubleClickable_QLineEdit(self.layoutWidget)
         self.loc_3.setObjectName(u"loc_3")
         self.loc_3.setMaxLength(36)
 
@@ -218,7 +218,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_5 = QVBoxLayout()
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.stream_select = QComboBox(self.widget)
+        self.stream_select = QComboBox(self.layoutWidget)
         self.stream_select.addItem("")
         self.stream_select.addItem("")
         self.stream_select.addItem("")
@@ -238,7 +238,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_5.addWidget(self.stream_select)
 
-        self.video_file_button = QPushButton(self.widget)
+        self.video_file_button = QPushButton(self.layoutWidget)
         self.video_file_button.setObjectName(u"video_file_button")
         sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
         sizePolicy1.setHorizontalStretch(0)
@@ -248,28 +248,28 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_5.addWidget(self.video_file_button)
 
-        self.add_ip_cam = QPushButton(self.widget)
+        self.add_ip_cam = QPushButton(self.layoutWidget)
         self.add_ip_cam.setObjectName(u"add_ip_cam")
         sizePolicy1.setHeightForWidth(self.add_ip_cam.sizePolicy().hasHeightForWidth())
         self.add_ip_cam.setSizePolicy(sizePolicy1)
 
         self.verticalLayout_5.addWidget(self.add_ip_cam)
 
-        self.open_camera_button = QPushButton(self.widget)
+        self.open_camera_button = QPushButton(self.layoutWidget)
         self.open_camera_button.setObjectName(u"open_camera_button")
         sizePolicy1.setHeightForWidth(self.open_camera_button.sizePolicy().hasHeightForWidth())
         self.open_camera_button.setSizePolicy(sizePolicy1)
 
         self.verticalLayout_5.addWidget(self.open_camera_button)
 
-        self.start_button = QPushButton(self.widget)
+        self.start_button = QPushButton(self.layoutWidget)
         self.start_button.setObjectName(u"start_button")
         sizePolicy1.setHeightForWidth(self.start_button.sizePolicy().hasHeightForWidth())
         self.start_button.setSizePolicy(sizePolicy1)
 
         self.verticalLayout_5.addWidget(self.start_button)
 
-        self.stop_button = QPushButton(self.widget)
+        self.stop_button = QPushButton(self.layoutWidget)
         self.stop_button.setObjectName(u"stop_button")
         sizePolicy1.setHeightForWidth(self.stop_button.sizePolicy().hasHeightForWidth())
         self.stop_button.setSizePolicy(sizePolicy1)
@@ -286,7 +286,7 @@ class Ui_MainWidget(object):
 
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.prediction_label = QLabel(self.widget)
+        self.prediction_label = QLabel(self.layoutWidget)
         self.prediction_label.setObjectName(u"prediction_label")
         font2 = QFont()
         font2.setPointSize(16)
@@ -296,12 +296,12 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_7 = QVBoxLayout()
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.res_label1 = QLabel(self.widget)
+        self.res_label1 = QLabel(self.layoutWidget)
         self.res_label1.setObjectName(u"res_label1")
 
         self.verticalLayout_7.addWidget(self.res_label1, 0, Qt.AlignHCenter)
 
-        self.res_cnum0 = doubleClickable_QLineEdit(self.widget)
+        self.res_cnum0 = doubleClickable_QLineEdit(self.layoutWidget)
         self.res_cnum0.setObjectName(u"res_cnum0")
         self.res_cnum0.setMinimumSize(QSize(160, 0))
         self.res_cnum0.setStyleSheet(u"")
@@ -309,12 +309,12 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_7.addWidget(self.res_cnum0, 0, Qt.AlignHCenter)
 
-        self.res_label2 = QLabel(self.widget)
+        self.res_label2 = QLabel(self.layoutWidget)
         self.res_label2.setObjectName(u"res_label2")
 
         self.verticalLayout_7.addWidget(self.res_label2, 0, Qt.AlignHCenter)
 
-        self.res_cnum1 = doubleClickable_QLineEdit(self.widget)
+        self.res_cnum1 = doubleClickable_QLineEdit(self.layoutWidget)
         self.res_cnum1.setObjectName(u"res_cnum1")
         self.res_cnum1.setMinimumSize(QSize(160, 0))
         self.res_cnum1.setMaxLength(10)
@@ -324,7 +324,7 @@ class Ui_MainWidget(object):
 
         self.horizontalLayout_5.addLayout(self.verticalLayout_7)
 
-        self.clear_predictions = QPushButton(self.widget)
+        self.clear_predictions = QPushButton(self.layoutWidget)
         self.clear_predictions.setObjectName(u"clear_predictions")
         sizePolicy2 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.MinimumExpanding)
         sizePolicy2.setHorizontalStretch(0)
