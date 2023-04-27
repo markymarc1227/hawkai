@@ -1,0 +1,7 @@
+<RCC>
+  <qresource>
+    <file>img_resources/Window-resized.png</file>
+    <file>img_resources/Icon.png</file>
+    <file>img_resources/Window.png</file>
+  </qresource>
+</RCC>
