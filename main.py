@@ -1,7 +1,6 @@
 #-------------------MULTIPROCESSING RELATED-------------------------#
 
-from multiprocessing import Queue, Process
-from multiprocessing import shared_memory
+from multiprocessing import Queue, Process, shared_memory, Event
 
 def start_process(video_file, queue, pred_queue, process_id):
     ie = Core()
@@ -18,7 +17,6 @@ def start_process(video_file, queue, pred_queue, process_id):
 
     if len(video_file) == 1:
         video_file = int(video_file)
-
     Capture = cv2.VideoCapture(video_file)
     while ProcessActive:
         ret, frame = Capture.read()
@@ -34,7 +32,7 @@ def start_process(video_file, queue, pred_queue, process_id):
             frame_array = np.array(frame_array)
             frame_array = preprocess_input(frame_array, data_format=None)
             predictions = compiled_model(frame_array)[compiled_model.output(0)] 
-            print(predictions)
+            print("Stream ID =",process_id,*predictions)
             frame_array = []
 
         Image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -48,7 +46,7 @@ def start_process(video_file, queue, pred_queue, process_id):
         else:
             prediction = 0
         prev_prediction = prediction
-        if str(prev_prediction) == str(1):
+        if str(prev_prediction) == "1":
             pred_counter += 1
         else:
             pred_counter = 0
@@ -131,6 +129,12 @@ class MainWidget(QWidget, Ui_MainWidget):
             2: self.ImageUpdateSlot3,
             3: self.ImageUpdateSlot4
         }
+        self.selection_labels = {
+            0: self.selector_0,
+            1: self.selector_1,
+            2: self.selector_2,
+            3: self.selector_3
+        }
         self.prediction_queue = SpoolingQueue()
         self.video_queues = [SpoolingQueue() for _ in self.video_frames]
         
@@ -162,7 +166,8 @@ class MainWidget(QWidget, Ui_MainWidget):
         for video_frame in self.video_frames:
             self.video_frames[video_frame].clicked.connect(self.HandleVideoClick)
         
-        self.stream_select.currentIndexChanged.connect(self.OnComboBoxChange)
+        
+        
         self.loc_0.returnPressed.connect(self.OnEnterLocation)
         self.loc_1.returnPressed.connect(self.OnEnterLocation)
         self.loc_2.returnPressed.connect(self.OnEnterLocation)
@@ -177,6 +182,8 @@ class MainWidget(QWidget, Ui_MainWidget):
         self.res_cnum1.textChanged.connect(self.CheckResponderNum)
         self.res_cnum0.doubleClicked.connect(self.OnDoubleClickLocation)
         self.res_cnum1.doubleClicked.connect(self.OnDoubleClickLocation)
+
+        #self.stream_select.currentIndexChanged.connect(self.OnComboBoxChange)
 
         self.add_ip_cam.clicked.connect(self.AddIpStream)
         self.video_file_button.clicked.connect(self.SelectVideo)
@@ -313,14 +320,14 @@ class MainWidget(QWidget, Ui_MainWidget):
         #print("previous stream:",self.previous_stream)
         self.current_stream = int(self.sender().objectName()[-1])
         #print("current stream:",self.current_stream)
-        self.video_frames[self.previous_stream].setStyleSheet("border: 2px solid black;")
-        self.video_frames[self.current_stream].setStyleSheet("border: 4px solid green;")
+        self.selection_labels[self.previous_stream].setStyleSheet("")
+        self.selection_labels[self.current_stream].setStyleSheet("background-color: green;")
 
-    def OnComboBoxChange(self, value):
-        self.previous_stream = self.current_stream
-        self.current_stream = value
-        self.video_frames[self.previous_stream].setStyleSheet("border: 2px solid black;")
-        self.video_frames[self.current_stream].setStyleSheet("border: 4px solid green;")
+    # def OnComboBoxChange(self, value):
+    #     self.previous_stream = self.current_stream
+    #     self.current_stream = value
+    #     self.video_frames[self.previous_stream].setStyleSheet("border: 2px solid black;")
+    #     self.video_frames[self.current_stream].setStyleSheet("border: 4px solid green;")
 
     # def CheckLocationLength(self):
     #     self.loc_num = sender().objectName()
@@ -330,12 +337,12 @@ class MainWidget(QWidget, Ui_MainWidget):
     def OnEnterLocation(self):
         self.locations[int(self.sender().objectName()[-1])] = self.sender().text()
         self.sender().setEnabled(False)
-        print(self.locations)
+        # print(self.locations)
 
     def OnEnterResponders(self):
         self.responders[int(self.sender().objectName()[-1])] = self.sender().text()
         self.sender().setEnabled(False)
-        print(self.responders)
+        # print(self.responders)
 
     def OnDoubleClickLocation(self):
         self.sender().setEnabled(True)
