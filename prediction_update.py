@@ -17,6 +17,6 @@ class PredictionWorker(QObject):
     
     def stop(self):
         self.ThreadActive = False
-        self.quit()
+        #self.quit()
 
            

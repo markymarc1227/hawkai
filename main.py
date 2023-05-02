@@ -2,28 +2,29 @@
 
 from multiprocessing import Queue, Process, shared_memory, Event
 
-def start_process(video_file, queue, pred_queue, process_id):
+def start_process(video_file, queue, pred_queue, process_id, event):
     ie = Core()
     sh_m = shared_memory.SharedMemory(name="shared_bytes_model")
     model_bytes = bytes(sh_m.buf[:sh_m.size])
     compiled_model = ie.import_model(model_stream= model_bytes, device_name="CPU")
     sh_m.close()
 
-    ProcessActive = True
+    # ProcessActive = True
     frame_array = []
     frame_counter = 0
-    prev_prediction = 0
     pred_counter = 0
 
     if len(video_file) == 1:
         video_file = int(video_file)
-    Capture = cv2.VideoCapture(video_file)
-    while ProcessActive:
-        ret, frame = Capture.read()
         
+    Capture = cv2.VideoCapture(video_file)
+    while True:
+        ret, frame = Capture.read()
+        if event.is_set():
+            break
         if not ret:
-            #print('Loop video')
-            #Capture.set(cv2.CAP_PROP_POS_FRAMES, 0)
+            # print('Loop video')
+            Capture.set(cv2.CAP_PROP_POS_FRAMES, 0)
             continue
 
         if frame_counter % 30 == 0:
@@ -38,22 +39,20 @@ def start_process(video_file, queue, pred_queue, process_id):
         Image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         #FlippedImage = cv2.flip(Image, 1)
         queue.put(Image)
-        cv2.waitKey(2)
+        cv2.waitKey(1)
         frame_counter += 1
 
         if predictions[0][0]>0.80:
-            prediction = 1
-        else:
-            prediction = 0
-        prev_prediction = prediction
-        if str(prev_prediction) == "1":
             pred_counter += 1
-        else:
-            pred_counter = 0
+
+        predictions = [[0,0]]
 
         if pred_counter > 2:
+            print("Pred > 2")
             pred_queue.put(process_id)
             pred_counter = 0
+
+    print("Process was stopped. (From Child Process)")
 
 from openvino.runtime import Core
 from keras.applications.inception_v3 import preprocess_input
@@ -113,7 +112,7 @@ class MainWidget(QWidget, Ui_MainWidget):
         self.alarm_time = ""
         self.prediction_list = []
         self.workers = {}
-        self.threads = {}
+        #self.threads = {}
         self.processes = {}
         self.locations = {}
         self.responders = {}
@@ -137,6 +136,7 @@ class MainWidget(QWidget, Ui_MainWidget):
         }
         self.prediction_queue = SpoolingQueue()
         self.video_queues = [SpoolingQueue() for _ in self.video_frames]
+        self.events = [Event() for _ in self.video_frames]
         
         self.ir_path = Path("accident_detection_model/InceptionV3_Combined_Model.xml")
         self.ie = Core()
@@ -197,7 +197,7 @@ class MainWidget(QWidget, Ui_MainWidget):
         #Starts worker thread for video feed
         if(len(self.video_file_path) != 0):
             print("Process started!")
-            self.processes[self.current_stream] = Process(target=start_process,args=(self.video_file_path, self.video_queues[self.current_stream], self.prediction_queue, self.current_stream))
+            self.processes[self.current_stream] = Process(target=start_process,args=(self.video_file_path, self.video_queues[self.current_stream], self.prediction_queue, self.current_stream, self.events[self.current_stream]))
             self.processes[self.current_stream].start()
             self.UpdateLabel(self.video_queues[self.current_stream])
             #self.Worker[self.current_stream].PredictionUpdate.connect(self.UpdatePredictionSlot)
@@ -205,14 +205,10 @@ class MainWidget(QWidget, Ui_MainWidget):
             self.video_frames[self.current_stream].setText("No video file to process. \n Please select a video file or open camera.")   
     
     def UpdateLabel(self, queue):
-        self.thread = QThread()
-        self.threads[self.current_stream] = self.thread
         self.workers[self.current_stream] = Worker(queue)
-        self.workers[self.current_stream].moveToThread(self.thread)
-        self.thread.started.connect(self.workers[self.current_stream].run)
         self.workers[self.current_stream].ImageUpdate.connect(self.image_update_slots[self.current_stream])
-        #self.video_frames[self.current_stream].setPixmap(QPixmap.fromImage(Pic))
-        self.thread.start()
+        self.workers[self.current_stream].finished.connect(self.StopProcess)
+        self.workers[self.current_stream].start()
 
     def UpdatePrediction(self, pred_queue):
         self.predictionthread = QThread()
@@ -251,22 +247,34 @@ class MainWidget(QWidget, Ui_MainWidget):
         self.prediction_list.clear()
         reset()
 
-    def CancelFeed(self):
-        print("Thread was stopped.")
-        self.workers[self.current_stream].stop()
-    
-    def StopFeed(self):
-        self.processes[self.current_stream].terminate()
+    # def CancelFeed(self):
+    #     print("Thread was stopped.")
+    #     self.workers[self.current_stream].stop()
+    def StopProcess(self):
+        self.events[self.current_stream].set()
+        self.processes[self.current_stream].join()
+        # self.processes[self.current_stream].terminate()
         print("Process was stopped.")
+        # del self.processes[self.current_stream]
+        self.events[self.current_stream].clear()
+        print("Processes")
+        print(self.processes)
+
+    def StopFeed(self):
         self.workers[self.current_stream].stop()
-        self.threads[self.current_stream].quit()
+        #self.threads[self.current_stream].quit()
+        # self.threads[self.current_stream].wait()
         print("Thread was stopped.")
+        # self.events[self.current_stream].clear()
         # self.threads[self.current_stream].quit()
         # self.threads[self.current_stream].wait()
         # print("Thread was stopped.")
+        
         # del self.workers[self.current_stream]
         # del self.threads[self.current_stream]
-        # del self.processes[self.current_stream]
+        
+        print("Worker Objects")
+        print(self.workers)
 
     def ImageUpdateSlot1(self, Image):
         self.video_frame_0.setPixmap(QPixmap.fromImage(Image))
@@ -319,7 +327,7 @@ class MainWidget(QWidget, Ui_MainWidget):
         self.previous_stream = self.current_stream
         #print("previous stream:",self.previous_stream)
         self.current_stream = int(self.sender().objectName()[-1])
-        #print("current stream:",self.current_stream)
+        print("current stream:",self.current_stream)
         self.selection_labels[self.previous_stream].setStyleSheet("")
         self.selection_labels[self.current_stream].setStyleSheet("background-color: green;")
 

@@ -247,6 +247,7 @@ class Ui_MainWidget(object):
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.video_file_button.sizePolicy().hasHeightForWidth())
         self.video_file_button.setSizePolicy(sizePolicy1)
+        self.video_file_button.setCursor(QCursor(Qt.PointingHandCursor))
 
         self.verticalLayout_5.addWidget(self.video_file_button)
 
@@ -254,6 +255,7 @@ class Ui_MainWidget(object):
         self.add_ip_cam.setObjectName(u"add_ip_cam")
         sizePolicy1.setHeightForWidth(self.add_ip_cam.sizePolicy().hasHeightForWidth())
         self.add_ip_cam.setSizePolicy(sizePolicy1)
+        self.add_ip_cam.setCursor(QCursor(Qt.PointingHandCursor))
 
         self.verticalLayout_5.addWidget(self.add_ip_cam)
 
@@ -261,6 +263,7 @@ class Ui_MainWidget(object):
         self.open_camera_button.setObjectName(u"open_camera_button")
         sizePolicy1.setHeightForWidth(self.open_camera_button.sizePolicy().hasHeightForWidth())
         self.open_camera_button.setSizePolicy(sizePolicy1)
+        self.open_camera_button.setCursor(QCursor(Qt.PointingHandCursor))
 
         self.verticalLayout_5.addWidget(self.open_camera_button)
 
@@ -268,6 +271,7 @@ class Ui_MainWidget(object):
         self.start_button.setObjectName(u"start_button")
         sizePolicy1.setHeightForWidth(self.start_button.sizePolicy().hasHeightForWidth())
         self.start_button.setSizePolicy(sizePolicy1)
+        self.start_button.setCursor(QCursor(Qt.PointingHandCursor))
 
         self.verticalLayout_5.addWidget(self.start_button)
 
@@ -275,6 +279,7 @@ class Ui_MainWidget(object):
         self.stop_button.setObjectName(u"stop_button")
         sizePolicy1.setHeightForWidth(self.stop_button.sizePolicy().hasHeightForWidth())
         self.stop_button.setSizePolicy(sizePolicy1)
+        self.stop_button.setCursor(QCursor(Qt.PointingHandCursor))
         self.stop_button.setCheckable(False)
         self.stop_button.setChecked(False)
 
