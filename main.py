@@ -16,7 +16,6 @@ def start_process(video_file, queue, pred_queue, process_id, event):
 
     if len(video_file) == 1:
         video_file = int(video_file)
-        
     Capture = cv2.VideoCapture(video_file)
     while True:
         ret, frame = Capture.read()
@@ -27,7 +26,7 @@ def start_process(video_file, queue, pred_queue, process_id, event):
             Capture.set(cv2.CAP_PROP_POS_FRAMES, 0)
             continue
 
-        if frame_counter % 30 == 0:
+        if frame_counter % 20 == 0:
             resized_frame = resize(frame, preserve_range=True, output_shape=(224,224)).astype(int)
             frame_array.append(resized_frame)
             frame_array = np.array(frame_array)
@@ -35,22 +34,25 @@ def start_process(video_file, queue, pred_queue, process_id, event):
             predictions = compiled_model(frame_array)[compiled_model.output(0)] 
             print("Stream ID =",process_id,*predictions)
             frame_array = []
+            if predictions[0][0]>0.80:
+                pred_counter += 1
+            else:
+                pred_counter = 0
 
         Image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         #FlippedImage = cv2.flip(Image, 1)
         queue.put(Image)
         cv2.waitKey(1)
         frame_counter += 1
-
-        if predictions[0][0]>0.80:
-            pred_counter += 1
-
-        predictions = [[0,0]]
-
-        if pred_counter > 2:
-            print("Pred > 2")
+        
+        print(pred_counter)
+        
+        if pred_counter == 3:
+            print("Pred == 3")
             pred_queue.put(process_id)
             pred_counter = 0
+
+        predictions = [[0,0]]
 
     print("Process was stopped. (From Child Process)")
 
@@ -165,8 +167,6 @@ class MainWidget(QWidget, Ui_MainWidget):
 
         for video_frame in self.video_frames:
             self.video_frames[video_frame].clicked.connect(self.HandleVideoClick)
-        
-        
         
         self.loc_0.returnPressed.connect(self.OnEnterLocation)
         self.loc_1.returnPressed.connect(self.OnEnterLocation)
