@@ -47,7 +47,7 @@ def start_process(video_file, queue, pred_queue, process_id, event):
         
         #print(pred_counter)
         
-        if pred_counter == 2:
+        if pred_counter == 3:
             print("Pred == 2!")
             pred_queue.put(process_id)
             pred_counter = 0
@@ -108,7 +108,7 @@ class MainWidget(QWidget, Ui_MainWidget):
         self.current_stream = 0
         self.previous_stream = 0
         self.alarm_message = ""
-        self.video_file_path = ""
+        self.video_file_path = {}
         self.prediction_holder = ""
         self.alarm_status = False
         self.alarm_time = ""
@@ -195,14 +195,17 @@ class MainWidget(QWidget, Ui_MainWidget):
     
     def StartFeed(self):
         #Starts worker thread for video feed
-        if(len(self.video_file_path) != 0):
-            print("Process started!")
-            self.processes[self.current_stream] = Process(target=start_process,args=(self.video_file_path, self.video_queues[self.current_stream], self.prediction_queue, self.current_stream, self.events[self.current_stream]))
-            self.processes[self.current_stream].start()
-            self.UpdateLabel(self.video_queues[self.current_stream])
-            #self.Worker[self.current_stream].PredictionUpdate.connect(self.UpdatePredictionSlot)
-        else:
-            self.video_frames[self.current_stream].setText("No video file to process. \n Please select a video file or open camera.")   
+        try:
+            if(len(self.video_file_path[self.current_stream]) != 0):
+                print("Process started!")
+                self.processes[self.current_stream] = Process(target=start_process,args=(self.video_file_path[self.current_stream], self.video_queues[self.current_stream], self.prediction_queue, self.current_stream, self.events[self.current_stream]))
+                self.processes[self.current_stream].start()
+                self.UpdateLabel(self.video_queues[self.current_stream])
+                #self.Worker[self.current_stream].PredictionUpdate.connect(self.UpdatePredictionSlot)
+            else:
+                self.video_frames[self.current_stream].setText("No video file to process. \n Please select a video file or open camera.")   
+        except:
+            self.video_frames[self.current_stream].setText("Error Occurred. \n Please select a video file or open camera.")   
     
     def UpdateLabel(self, queue):
         self.workers[self.current_stream] = Worker(queue)
@@ -298,8 +301,8 @@ class MainWidget(QWidget, Ui_MainWidget):
                                  "Videos (*.mp4 *.avi)")
         if((file_name == "")):
             return
-        self.video_file_path = file_name
-        file_base_name = os.path.basename(self.video_file_path)
+        self.video_file_path[self.current_stream] = file_name
+        file_base_name = os.path.basename(file_name)
         self.video_frames[self.current_stream].setText(file_base_name+" has been loaded. Press Start.") 
 
     def OpenCamera(self):
@@ -310,7 +313,7 @@ class MainWidget(QWidget, Ui_MainWidget):
         text, ok = QInputDialog.getText(self, "Enter Camera IP Address",
                                 "IP Address:", QLineEdit.Normal)
         if ok and text:
-            self.video_file_path = text + "/video"
+            self.video_file_path[self.current_stream] = text + "/video"
             self.video_frames[self.current_stream].setText("An IP Address was set, click Start.")
 
     def HandleVideoClick(self):
