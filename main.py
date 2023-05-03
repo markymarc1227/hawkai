@@ -45,10 +45,10 @@ def start_process(video_file, queue, pred_queue, process_id, event):
         cv2.waitKey(1)
         frame_counter += 1
         
-        print(pred_counter)
+        #print(pred_counter)
         
-        if pred_counter == 3:
-            print("Pred == 3")
+        if pred_counter == 2:
+            print("Pred == 2!")
             pred_queue.put(process_id)
             pred_counter = 0
 
@@ -140,7 +140,7 @@ class MainWidget(QWidget, Ui_MainWidget):
         self.video_queues = [SpoolingQueue() for _ in self.video_frames]
         self.events = [Event() for _ in self.video_frames]
         
-        self.ir_path = Path("accident_detection_model/InceptionV3_Combined_Model.xml")
+        self.ir_path = Path("accident_detection_model/InceptionV3_Combined_ModelV2.xml")
         self.ie = Core()
         self.model = self.ie.read_model(self.ir_path)
         self.compiled_model = self.ie.compile_model(model=self.model, device_name="CPU")
