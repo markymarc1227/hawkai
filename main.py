@@ -247,9 +247,6 @@ class MainWidget(QWidget, Ui_MainWidget):
         self.prediction_list.clear()
         reset()
 
-    # def CancelFeed(self):
-    #     print("Thread was stopped.")
-    #     self.workers[self.current_stream].stop()
     def StopProcess(self):
         self.events[self.current_stream].set()
         self.processes[self.current_stream].join()
@@ -288,13 +285,8 @@ class MainWidget(QWidget, Ui_MainWidget):
     def ImageUpdateSlot4(self, Image):
         self.video_frame_3.setPixmap(QPixmap.fromImage(Image))
 
-    # def UpdatePredictionSlot(self, prediction):
-    #     self.prediction_label.setText(prediction)
-
     def UpdateDateTime(self):
-        # Gets the current date and time
         current_datetime = QDateTime(QDateTime.currentDateTime())
-        # Update the labels with the current date and time
         self.alarm_time = current_datetime.toString("hh:mmap")
         self.date_comp.setText(current_datetime.toString("MM/dd/yyyy"))
         self.time_comp.setText(current_datetime.toString("hh:mm:ss ap"))
@@ -322,10 +314,7 @@ class MainWidget(QWidget, Ui_MainWidget):
             self.video_frames[self.current_stream].setText("An IP Address was set, click Start.")
 
     def HandleVideoClick(self):
-        #print(self.sender().objectName()[-1])
-        #print(int(self.sender().objectName()[-1]))
         self.previous_stream = self.current_stream
-        #print("previous stream:",self.previous_stream)
         self.current_stream = int(self.sender().objectName()[-1])
         print("current stream:",self.current_stream)
         self.selection_labels[self.previous_stream].setStyleSheet("")
@@ -364,11 +353,6 @@ class MainWidget(QWidget, Ui_MainWidget):
         except:
             self.res_num.setText(self.res_num.text()[:-1])
             self.res_num.setStyleSheet("border: 2px solid red;")
-
-        #print(type(value))
-        # if type(value) is not int:
-        #     self.res_num.setText(self.res_num.text()[:-1])
-        #     self.res_num.setStyleSheet("border: 2px solid red;")
 
     def UpdateAlarm(self):
         pass
