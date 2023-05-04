@@ -227,12 +227,13 @@ class MainWidget(QWidget, Ui_MainWidget):
             self.prediction_holder += "Cam" + str(self.prediction_list[-1]+1) + " " 
             self.prediction_label.setText(self.prediction_holder)
             # print(prediction)
-            # print(self.locations)
+            print(self.locations)
+            print(self.responders)
             self.alarm_message = str(prediction+1)+self.responders[0]+self.responders[1]+self.alarm_time+self.locations[prediction]
             print("Accident Detected!")
             print(self.alarm_message)
             self.video_frames[prediction].setStyleSheet("border: 10px solid red;")
-            # accident(self.alarm_message)
+            accident(self.alarm_message)
 
             # if self.alarm_status == False:
             #     accident(self.alarm_message)

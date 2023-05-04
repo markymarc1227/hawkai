@@ -122,7 +122,7 @@ class Ui_MainWidget(object):
 
         self.loc_0 = doubleClickable_QLineEdit(self.layoutWidget)
         self.loc_0.setObjectName(u"loc_0")
-        self.loc_0.setMaxLength(36)
+        self.loc_0.setMaxLength(32)
         self.loc_0.setReadOnly(False)
         self.loc_0.setClearButtonEnabled(False)
 
@@ -156,7 +156,7 @@ class Ui_MainWidget(object):
 
         self.loc_1 = doubleClickable_QLineEdit(self.layoutWidget)
         self.loc_1.setObjectName(u"loc_1")
-        self.loc_1.setMaxLength(36)
+        self.loc_1.setMaxLength(32)
 
         self.verticalLayout_2.addWidget(self.loc_1)
 
@@ -193,7 +193,7 @@ class Ui_MainWidget(object):
 
         self.loc_2 = doubleClickable_QLineEdit(self.layoutWidget)
         self.loc_2.setObjectName(u"loc_2")
-        self.loc_2.setMaxLength(36)
+        self.loc_2.setMaxLength(32)
 
         self.verticalLayout_3.addWidget(self.loc_2)
 
@@ -225,7 +225,7 @@ class Ui_MainWidget(object):
 
         self.loc_3 = doubleClickable_QLineEdit(self.layoutWidget)
         self.loc_3.setObjectName(u"loc_3")
-        self.loc_3.setMaxLength(36)
+        self.loc_3.setMaxLength(32)
 
         self.verticalLayout_4.addWidget(self.loc_3)
 
