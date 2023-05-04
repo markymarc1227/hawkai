@@ -306,7 +306,7 @@ class MainWidget(QWidget, Ui_MainWidget):
         self.video_frames[self.current_stream].setText(file_base_name+" has been loaded. Press Start.") 
 
     def OpenCamera(self):
-        self.video_file_path = "0"
+        self.video_file_path[self.current_stream] = "0"
         self.video_frames[self.current_stream].setText("Camera Loaded. Press Start.")
 
     def AddIpStream(self):
