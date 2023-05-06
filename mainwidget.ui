@@ -209,7 +209,7 @@
             <item>
              <widget class="doubleClickable_QLineEdit" name="loc_0">
               <property name="maxLength">
-               <number>32</number>
+               <number>31</number>
               </property>
               <property name="readOnly">
                <bool>false</bool>
@@ -287,7 +287,7 @@
             <item>
              <widget class="doubleClickable_QLineEdit" name="loc_1">
               <property name="maxLength">
-               <number>32</number>
+               <number>31</number>
               </property>
               <property name="placeholderText">
                <string>Enter Location 2</string>
@@ -363,7 +363,7 @@
             <item>
              <widget class="doubleClickable_QLineEdit" name="loc_2">
               <property name="maxLength">
-               <number>32</number>
+               <number>31</number>
               </property>
               <property name="placeholderText">
                <string>Enter Location 3</string>
@@ -435,7 +435,7 @@
             <item>
              <widget class="doubleClickable_QLineEdit" name="loc_3">
               <property name="maxLength">
-               <number>32</number>
+               <number>31</number>
               </property>
               <property name="placeholderText">
                <string>Enter Location 4</string>
@@ -500,6 +500,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="start_button">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -509,6 +512,9 @@
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Please enter a location and responders' numbers to start.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
           <property name="text">
            <string>Start</string>
           </property>
@@ -516,6 +522,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="stop_button">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
             <horstretch>0</horstretch>

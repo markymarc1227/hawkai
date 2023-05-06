@@ -116,8 +116,7 @@ class MainWidget(QWidget, Ui_MainWidget):
         self.workers = {}
         #self.threads = {}
         self.processes = {}
-        self.locations = {}
-        self.responders = {}
+        
         self.video_frames = {
             0: self.video_frame_0,
             1: self.video_frame_1,
@@ -136,6 +135,8 @@ class MainWidget(QWidget, Ui_MainWidget):
             2: self.selector_2,
             3: self.selector_3
         }
+        self.locations = {num: "" for num in self.video_frames}
+        self.responders = {0:"", 1:""}
         self.prediction_queue = SpoolingQueue()
         self.video_queues = [SpoolingQueue() for _ in self.video_frames]
         self.events = [Event() for _ in self.video_frames]
@@ -164,20 +165,26 @@ class MainWidget(QWidget, Ui_MainWidget):
         # Update the time label initially
         self.UpdateDateTime()
         self.UpdatePrediction(self.prediction_queue)
+        self.CheckResponderInputLength()
 
+        
         for video_frame in self.video_frames:
             self.video_frames[video_frame].clicked.connect(self.HandleVideoClick)
         
-        self.loc_0.returnPressed.connect(self.OnEnterLocation)
-        self.loc_1.returnPressed.connect(self.OnEnterLocation)
-        self.loc_2.returnPressed.connect(self.OnEnterLocation)
-        self.loc_3.returnPressed.connect(self.OnEnterLocation)
+        self.loc_0.textChanged.connect(self.OnEnterLocation)
+        self.loc_1.textChanged.connect(self.OnEnterLocation)
+        self.loc_2.textChanged.connect(self.OnEnterLocation)
+        self.loc_3.textChanged.connect(self.OnEnterLocation)
+        self.loc_0.returnPressed.connect(self.OnLockInput)
+        self.loc_1.returnPressed.connect(self.OnLockInput)
+        self.loc_2.returnPressed.connect(self.OnLockInput)
+        self.loc_3.returnPressed.connect(self.OnLockInput)
         self.loc_0.doubleClicked.connect(self.OnDoubleClickLocation)
         self.loc_1.doubleClicked.connect(self.OnDoubleClickLocation)
         self.loc_2.doubleClicked.connect(self.OnDoubleClickLocation)
         self.loc_3.doubleClicked.connect(self.OnDoubleClickLocation)
-        self.res_cnum0.returnPressed.connect(self.OnEnterResponders)
-        self.res_cnum1.returnPressed.connect(self.OnEnterResponders)
+        self.res_cnum0.returnPressed.connect(self.OnLockInput)
+        self.res_cnum1.returnPressed.connect(self.OnLockInput)
         self.res_cnum0.textChanged.connect(self.CheckResponderNum)
         self.res_cnum1.textChanged.connect(self.CheckResponderNum)
         self.res_cnum0.doubleClicked.connect(self.OnDoubleClickLocation)
@@ -226,9 +233,6 @@ class MainWidget(QWidget, Ui_MainWidget):
             self.prediction_list.append(prediction)
             self.prediction_holder += "Cam" + str(self.prediction_list[-1]+1) + " " 
             self.prediction_label.setText(self.prediction_holder)
-            # print(prediction)
-            print(self.locations)
-            print(self.responders)
             self.alarm_message = str(prediction+1)+self.responders[0]+self.responders[1]+self.alarm_time+self.locations[prediction]
             print("Accident Detected!")
             print(self.alarm_message)
@@ -240,7 +244,6 @@ class MainWidget(QWidget, Ui_MainWidget):
             #     self.alarm_status = True
             # elif self.alarm_status == True:
             #     accident(self.alarm_message)
-        #print("STREAM",prediction)
             
     def ClearPredictions(self):
         self.alarm_status = False
@@ -317,18 +320,24 @@ class MainWidget(QWidget, Ui_MainWidget):
             self.video_file_path[self.current_stream] = text + "/video"
             self.video_frames[self.current_stream].setText("An IP Address was set, click Start.")
 
+    def CheckLocationAndRespondersInput(self):
+        print(self.locations)
+        print(self.responders)
+        print(len(self.locations[self.current_stream]) > 0 and len(self.responders[0]) == 10 and len(self.responders[1]) == 10)
+        if len(self.locations[self.current_stream]) > 0 and len(self.responders[0]) == 10 and len(self.responders[1]) == 10:
+            self.start_button.setEnabled(True)
+            self.stop_button.setEnabled(True)
+        else:
+            self.start_button.setEnabled(False)
+            self.stop_button.setEnabled(False)
+
     def HandleVideoClick(self):
         self.previous_stream = self.current_stream
         self.current_stream = int(self.sender().objectName()[-1])
         print("current stream:",self.current_stream)
         self.selection_labels[self.previous_stream].setStyleSheet("")
         self.selection_labels[self.current_stream].setStyleSheet("background-color: green;")
-
-    # def OnComboBoxChange(self, value):
-    #     self.previous_stream = self.current_stream
-    #     self.current_stream = value
-    #     self.video_frames[self.previous_stream].setStyleSheet("border: 2px solid black;")
-    #     self.video_frames[self.current_stream].setStyleSheet("border: 4px solid green;")
+        self.CheckLocationAndRespondersInput()
 
     # def CheckLocationLength(self):
     #     self.loc_num = sender().objectName()
@@ -336,30 +345,34 @@ class MainWidget(QWidget, Ui_MainWidget):
     #         self.loc_num.setText(self.loc_num.text()[:-1])
 
     def OnEnterLocation(self):
-        self.locations[int(self.sender().objectName()[-1])] = self.sender().text()
-        self.sender().setEnabled(False)
-        # print(self.locations)
+        self.locformat = self.sender().text() + (31 - len(self.sender().text())) * " " + "."
+        self.locations[int(self.sender().objectName()[-1])] = self.locformat
+        self.CheckLocationAndRespondersInput()
 
-    def OnEnterResponders(self):
-        self.responders[int(self.sender().objectName()[-1])] = self.sender().text()
+    def OnLockInput(self):
         self.sender().setEnabled(False)
-        # print(self.responders)
 
     def OnDoubleClickLocation(self):
         self.sender().setEnabled(True)
 
     def CheckResponderNum(self, value):
-        self.res_num = self.sender()
         try:
             value = int(value)
-            self.res_num.setStyleSheet("")
-            
+            self.sender().setStyleSheet("")      
         except:
-            self.res_num.setText(self.res_num.text()[:-1])
-            self.res_num.setStyleSheet("border: 2px solid red;")
-
-    def UpdateAlarm(self):
-        pass
+            self.sender().setText(self.sender().text()[:-1])
+            self.sender().setStyleSheet("border: 2px solid red;")
+        
+        self.responders[int(self.sender().objectName()[-1])] = self.sender().text()
+        self.CheckResponderInputLength()
+        self.CheckLocationAndRespondersInput()
+    
+    def CheckResponderInputLength(self):
+        if (len(self.res_cnum0.text()) < 10):
+            self.res_cnum0.setStyleSheet("border: 2px solid red;")
+        if (len(self.res_cnum1.text()) < 10):
+            self.res_cnum1.setStyleSheet("border: 2px solid red;")
+    
 
 if __name__ == '__main__':
 

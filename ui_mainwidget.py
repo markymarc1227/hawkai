@@ -122,7 +122,7 @@ class Ui_MainWidget(object):
 
         self.loc_0 = doubleClickable_QLineEdit(self.layoutWidget)
         self.loc_0.setObjectName(u"loc_0")
-        self.loc_0.setMaxLength(32)
+        self.loc_0.setMaxLength(31)
         self.loc_0.setReadOnly(False)
         self.loc_0.setClearButtonEnabled(False)
 
@@ -156,7 +156,7 @@ class Ui_MainWidget(object):
 
         self.loc_1 = doubleClickable_QLineEdit(self.layoutWidget)
         self.loc_1.setObjectName(u"loc_1")
-        self.loc_1.setMaxLength(32)
+        self.loc_1.setMaxLength(31)
 
         self.verticalLayout_2.addWidget(self.loc_1)
 
@@ -193,7 +193,7 @@ class Ui_MainWidget(object):
 
         self.loc_2 = doubleClickable_QLineEdit(self.layoutWidget)
         self.loc_2.setObjectName(u"loc_2")
-        self.loc_2.setMaxLength(32)
+        self.loc_2.setMaxLength(31)
 
         self.verticalLayout_3.addWidget(self.loc_2)
 
@@ -225,7 +225,7 @@ class Ui_MainWidget(object):
 
         self.loc_3 = doubleClickable_QLineEdit(self.layoutWidget)
         self.loc_3.setObjectName(u"loc_3")
-        self.loc_3.setMaxLength(32)
+        self.loc_3.setMaxLength(31)
 
         self.verticalLayout_4.addWidget(self.loc_3)
 
@@ -269,6 +269,7 @@ class Ui_MainWidget(object):
 
         self.start_button = QPushButton(self.layoutWidget)
         self.start_button.setObjectName(u"start_button")
+        self.start_button.setEnabled(False)
         sizePolicy1.setHeightForWidth(self.start_button.sizePolicy().hasHeightForWidth())
         self.start_button.setSizePolicy(sizePolicy1)
         self.start_button.setCursor(QCursor(Qt.PointingHandCursor))
@@ -277,6 +278,7 @@ class Ui_MainWidget(object):
 
         self.stop_button = QPushButton(self.layoutWidget)
         self.stop_button.setObjectName(u"stop_button")
+        self.stop_button.setEnabled(False)
         sizePolicy1.setHeightForWidth(self.stop_button.sizePolicy().hasHeightForWidth())
         self.stop_button.setSizePolicy(sizePolicy1)
         self.stop_button.setCursor(QCursor(Qt.PointingHandCursor))
@@ -390,6 +392,9 @@ class Ui_MainWidget(object):
         self.video_file_button.setText(QCoreApplication.translate("MainWidget", u"Select Video File", None))
         self.add_ip_cam.setText(QCoreApplication.translate("MainWidget", u"Add IP Feed", None))
         self.open_camera_button.setText(QCoreApplication.translate("MainWidget", u"Open Camera", None))
+#if QT_CONFIG(tooltip)
+        self.start_button.setToolTip(QCoreApplication.translate("MainWidget", u"<html><head/><body><p>Please enter a location and responders' numbers to start.</p></body></html>", None))
+#endif // QT_CONFIG(tooltip)
         self.start_button.setText(QCoreApplication.translate("MainWidget", u"Start", None))
         self.stop_button.setText(QCoreApplication.translate("MainWidget", u"Stop", None))
         self.prediction_label.setText(QCoreApplication.translate("MainWidget", u"PREDICTIONS", None))
