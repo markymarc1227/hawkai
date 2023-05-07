@@ -16,7 +16,12 @@ def start_process(video_file, queue, pred_queue, process_id, event):
 
     if len(video_file) == 1:
         video_file = int(video_file)
-    Capture = cv2.VideoCapture.open(video_file)
+
+    if video_file[:4] == "rtsp":
+        Capture = cv2.VideoCapture.open(video_file)
+    else:
+        Capture = cv2.VideoCapture(video_file)
+        
     while True:
         ret, frame = Capture.read()
         if event.is_set():
