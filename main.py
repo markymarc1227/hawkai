@@ -16,7 +16,7 @@ def start_process(video_file, queue, pred_queue, process_id, event):
 
     if len(video_file) == 1:
         video_file = int(video_file)
-    Capture = cv2.VideoCapture(video_file)
+    Capture = cv2.VideoCapture.open(video_file)
     while True:
         ret, frame = Capture.read()
         if event.is_set():
@@ -99,6 +99,9 @@ from SpoolingQueue import SpoolingQueue
 from label_update import Worker
 from ui_mainwidget import Ui_MainWidget
 from prediction_update import PredictionWorker
+
+
+
 
 class MainWidget(QWidget, Ui_MainWidget):
     def __init__(self,app):
