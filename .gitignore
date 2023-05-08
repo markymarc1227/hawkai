@@ -1,2 +1,5 @@
 accident_detection_model/
 accident-videos/
+build/
+dist/
+*.spec
