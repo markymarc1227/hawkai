@@ -1,13 +1,7 @@
 #-------------------MULTIPROCESSING RELATED-------------------------#
-from multiprocessing import Queue, Process, shared_memory, Event, freeze_support
+from multiprocessing import Queue, Process, Event, freeze_support
 
 def start_process(video_file, queue, infer_queue, process_id, event):
-    # ie = Core()
-    # sh_m = shared_memory.SharedMemory(name="shared_bytes_model")
-    # model_bytes = bytes(sh_m.buf[:sh_m.size])
-    # compiled_model = ie.import_model(model_stream= model_bytes, device_name="CPU")
-    # sh_m.close()
-
     # ProcessActive = True
     frame_array = []
     frame_counter = 0
@@ -27,7 +21,6 @@ def start_process(video_file, queue, infer_queue, process_id, event):
         if event.is_set():
             break
         if not ret:
-            # print('Loop video')
             Capture.set(cv2.CAP_PROP_POS_FRAMES, 0)
             continue
 
@@ -37,33 +30,16 @@ def start_process(video_file, queue, infer_queue, process_id, event):
             frame_array = np.array(frame_array)
             frame_array = preprocess_input(frame_array, data_format=None)
             infer_queue.put([frame_array,process_id])
-            # print(frame_array)
-            # predictions = compiled_model(frame_array)[compiled_model.output(0)] 
-            # print("Stream ID =",process_id,*predictions)
             frame_array = []
-            # if predictions[0][0]>0.80:
-            #     pred_counter += 1
-            # else:
-            #     pred_counter = 0
 
         Image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         #FlippedImage = cv2.flip(Image, 1)
         queue.put(Image)
         cv2.waitKey(1)
         frame_counter += 1
-        
-        # #print(pred_counter)
-        
-        # if pred_counter == 3:
-        #     print("Pred == 2!")
-        #     pred_queue.put(process_id)
-        #     pred_counter = 0
-
-        # predictions = [[0,0]]
 
     print("Process was stopped. (From Child Process)")
 
-# from openvino.runtime import Core
 from keras.applications.inception_v3 import preprocess_input
 
 import cv2
@@ -71,7 +47,6 @@ import numpy as np
 from skimage.transform import resize 
 
 import os
-# from pathlib import Path
 #-------------------MULTIPROCESSING RELATED-------------------------#
 
 
@@ -129,23 +104,6 @@ class MainWidget(QWidget, Ui_MainWidget):
         self.inference_queue = SpoolingQueue()
         self.video_queues = [SpoolingQueue() for _ in self.video_frames]
         self.events = [Event() for _ in self.video_frames]
-        
-        # self.ir_path = Path("accident_detection_model/InceptionV3_Combined_ModelV2.xml")
-        # self.ie = Core()
-        # self.model = self.ie.read_model(self.ir_path)
-        # self.compiled_model = self.ie.compile_model(model=self.model, device_name="CPU")
-        # self.model_bytes = self.compiled_model.export_model()
-        # with open('./bytes_model', 'wb') as f:
-        #     f.write(self.model_bytes)
-
-        # self.shm = shared_memory.SharedMemory(name="shared_bytes_model", create=True, size=len(self.model_bytes))
-        # self.shm.buf[:len(self.model_bytes)] = self.model_bytes 
-        
-        # self.np_array = np.ndarray(self.model_bytes.shape, dtype=self.model_bytes.dtype, buffer=self.shm.buf)
-        # self.np_array[:] = self.model_bytes[:]
-
-        # self.shm.close()
-        # self.shm.unlink()
 
         # Creates a timer to update the time label every second
         self.timer = QTimer()
@@ -251,12 +209,6 @@ class MainWidget(QWidget, Ui_MainWidget):
             print(self.alarm_message)
             self.video_frames[prediction].setStyleSheet("border: 10px solid red;")
             accident(self.alarm_message)
-
-            # if self.alarm_status == False:
-            #     accident(self.alarm_message)
-            #     self.alarm_status = True
-            # elif self.alarm_status == True:
-            #     accident(self.alarm_message)
             
     def ClearPredictions(self):
         self.alarm_status = False
@@ -400,16 +352,6 @@ def reset():
     serialcomm.write(b"0\r\n")
 #-------------------ARDUINO RELATED-------------------------#
 
-# def InferenceProcessor(inference_queue, prediction_queue):
-#     frame_array = inference_queue.get() #returns a list where: [Frame to process, Process_Number]
-#     predictions = compiled_model(frame_array[0])[compiled_model.output(0)]
-#     if predictions[0][0]>0.80:
-#         pred_counter[frame_array[1]] += 1
-#     else:
-#         pred_counter[frame_array[1]] = 0
-
-#     prediction_queue.put(frame_array[1])
-
 if __name__ == '__main__':
     freeze_support()
     try:
@@ -424,5 +366,3 @@ if __name__ == '__main__':
     window.show()
 
     app.exec()
-
-    #app.aboutToQuit.connect(window.StopThreads())
