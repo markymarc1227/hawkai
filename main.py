@@ -1,6 +1,5 @@
 #-------------------MULTIPROCESSING RELATED-------------------------#
 from multiprocessing import Queue, Process, shared_memory, Event, freeze_support
-freeze_support()
 
 def start_process(video_file, queue, infer_queue, process_id, event):
     # ie = Core()
@@ -37,7 +36,7 @@ def start_process(video_file, queue, infer_queue, process_id, event):
             frame_array.append(resized_frame)
             frame_array = np.array(frame_array)
             frame_array = preprocess_input(frame_array, data_format=None)
-            infer_queue.put([frame_array,process_id])
+            #infer_queue.put([frame_array,process_id])
             # print(frame_array)
             # predictions = compiled_model(frame_array)[compiled_model.output(0)] 
             # print("Stream ID =",process_id,*predictions)
@@ -412,6 +411,7 @@ def reset():
 #     prediction_queue.put(frame_array[1])
 
 if __name__ == '__main__':
+    freeze_support()
     try:
         serialcomm = serial.Serial("COM3",9600)
         time.sleep(2)
