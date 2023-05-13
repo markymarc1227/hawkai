@@ -12,3 +12,8 @@ How to run:
 5. Download the accident videos for testing at: https://drive.google.com/drive/folders/15-MJ6Eg1X29B8TRHo5NxePgNB06cLX3h?usp=share_link  
 6. CD into the project folder.
 7. Run the command "python main.py".
+
+--OR--
+1. Download ZIP file at: https://drive.google.com/file/d/1SURe_2fb5wCKfZfq9WAfCkQYxRU95q34/view?usp=share_link
+2. Extract the file.
+3. In the extracted folder, go to the dist folder and run HawkAI.exe.
