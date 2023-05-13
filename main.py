@@ -62,6 +62,13 @@ from ui_mainwidget import Ui_MainWidget
 from prediction_update import PredictionWorker
 from inference_worker import InferenceWorker
 
+try:
+    from ctypes import windll  # Only exists on Windows.
+    myappid = 'tip.hawkAI.accident-detection.v1'
+    windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+except ImportError:
+    pass
+
 class MainWidget(QWidget, Ui_MainWidget):
     def __init__(self,app):
         super().__init__()
