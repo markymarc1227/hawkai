@@ -289,7 +289,10 @@ class MainWidget(QWidget, Ui_MainWidget):
         text, ok = QInputDialog.getText(self, "Enter Camera IP Address",
                                 "IP Address:", QLineEdit.Normal)
         if ok and text:
-            self.video_file_path[self.current_stream] = text + "/video"
+            if self.video_file[:4] == "rtsp":
+                self.video_file_path[self.current_stream] = text
+            else:
+                self.video_file_path[self.current_stream] = text + "/video"
             self.video_frames[self.current_stream].setText("An IP Address was set, click Start.")
 
     def CheckLocationAndRespondersInput(self):
