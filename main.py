@@ -289,7 +289,7 @@ class MainWidget(QWidget, Ui_MainWidget):
         text, ok = QInputDialog.getText(self, "Enter Camera IP Address",
                                 "IP Address:", QLineEdit.Normal)
         if ok and text:
-            if self.video_file_path[self.current_stream][:4] == "rtsp":
+            if text[:4] == "rtsp":
                 self.video_file_path[self.current_stream] = text
             else:
                 self.video_file_path[self.current_stream] = text + "/video"
