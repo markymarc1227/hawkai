@@ -14,7 +14,7 @@ class Worker(QThread):
             self.queue.wait()
             Image = self.queue.get()
             ConvertToQtFormat = QImage(Image.data, Image.shape[1], Image.shape[0], QImage.Format_RGB888)
-            Pic = ConvertToQtFormat.scaled(240, 180) #Qt.KeepAspectRatio
+            Pic = ConvertToQtFormat.scaled(360, 180) #Qt.KeepAspectRatio
             self.ImageUpdate.emit(Pic)
         #self.Finished.emit()
     
