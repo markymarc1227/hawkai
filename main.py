@@ -77,7 +77,7 @@ class MainWidget(QWidget, Ui_MainWidget):
         self.current_stream = 0
         self.previous_stream = 0
         self.alarm_message = ""
-        self.video_file_path = {}
+        self.video_file_path = {0:"",1:"",2:"",3:""}
         self.prediction_holder = ""
         self.alarm_status = False
         self.alarm_time = ""
@@ -104,6 +104,13 @@ class MainWidget(QWidget, Ui_MainWidget):
             2: self.selector_2,
             3: self.selector_3
         }
+        self.loc_edits = {
+            0: self.loc_0,
+            1: self.loc_1,
+            2: self.loc_2,
+            3: self.loc_3
+        }
+
         self.locations = {num: "" for num in self.video_frames}
         self.pred_counter = {num: "" for num in self.video_frames}
         self.responders = {0:"", 1:""}
@@ -152,6 +159,7 @@ class MainWidget(QWidget, Ui_MainWidget):
         self.stop_button.clicked.connect(self.StopFeed)
         self.start_button.clicked.connect(self.StartFeed)
         self.clear_predictions.clicked.connect(self.ClearPredictions)
+        self.show_report.clicked.connect(self.showReports)
         
 
     
@@ -178,6 +186,7 @@ class MainWidget(QWidget, Ui_MainWidget):
     def StartFeed(self):
         #Starts worker thread for video feed
         try:
+            
             if(len(self.video_file_path[self.current_stream]) != 0):
                 print("Process started!")
                 self.processes[self.current_stream] = Process(target=start_process,args=(self.video_file_path[self.current_stream], self.video_queues[self.current_stream], self.inference_queue, self.current_stream, self.events[self.current_stream]))
@@ -186,6 +195,7 @@ class MainWidget(QWidget, Ui_MainWidget):
                 #self.Worker[self.current_stream].PredictionUpdate.connect(self.UpdatePredictionSlot)
             else:
                 self.video_frames[self.current_stream].setText("No video file to process. \n Please select a video file or open camera.")   
+                
         except:
             self.video_frames[self.current_stream].setText("Error Occurred. \n Please select a video file or open camera.")   
     
@@ -215,7 +225,13 @@ class MainWidget(QWidget, Ui_MainWidget):
             print("Accident Detected!")
             print(self.alarm_message)
             self.video_frames[prediction].setStyleSheet("border: 10px solid red;")
-            accident(self.alarm_message)
+            #accident(self.alarm_message)
+
+            with open('Logs.txt', 'a') as f:
+                self.accident_locformat = self.locations[prediction].replace(" ","")
+                self.accident_data = f"\nTime: {self.alarm_time} Camera: {str(prediction+1)} Location: {self.accident_locformat} Sent to: +63{self.responders[0]} and +63{self.responders[1]}"
+                f.write(self.accident_data)
+
             
     def ClearPredictions(self):
         self.alarm_status = False
@@ -277,35 +293,66 @@ class MainWidget(QWidget, Ui_MainWidget):
                                  "Videos (*.mp4 *.avi)")
         if((file_name == "")):
             return
-        self.video_file_path[self.current_stream] = file_name
-        file_base_name = os.path.basename(file_name)
-        self.video_frames[self.current_stream].setText(file_base_name+" has been loaded. Press Start.") 
+
+        if file_name not in self.video_file_path.values():
+            self.video_file_path[self.current_stream] = file_name
+            file_base_name = os.path.basename(file_name)
+            self.video_frames[self.current_stream].setText(file_base_name+" has been loaded. Press Start.")
+        else:
+            self.video_frames[self.current_stream].setText("Duplicate Source / Stream ID. \n Please select a different source")   
 
     def OpenCamera(self):
-        self.video_file_path[self.current_stream] = "0"
-        self.video_frames[self.current_stream].setText("Camera Loaded. Press Start.")
+        if "0" not in self.video_file_path.values():
+            self.video_file_path[self.current_stream] = "0"
+            self.video_frames[self.current_stream].setText("Camera Loaded. Press Start.")
+        else:
+            self.video_frames[self.current_stream].setText("Duplicate Source / Stream ID. \n Please select a different source")   
+        
 
     def AddIpStream(self):
         text, ok = QInputDialog.getText(self, "Enter Camera IP Address",
                                 "IP Address:", QLineEdit.Normal)
         if ok and text:
-            if text[:4] == "rtsp":
-                self.video_file_path[self.current_stream] = text
+            print(self.video_file_path.values())
+            print(text not in self.video_file_path.values())
+            print(text+"/video" not in self.video_file_path.values())
+            if text not in self.video_file_path.values() and text+"/video" not in self.video_file_path.values():
+                if text[:4] == "rtsp":
+                    self.video_file_path[self.current_stream] = text
+                else:
+                    self.video_file_path[self.current_stream] = text + "/video"
+                self.video_frames[self.current_stream].setText("An IP Address was set, click Start.")
             else:
-                self.video_file_path[self.current_stream] = text + "/video"
-            self.video_frames[self.current_stream].setText("An IP Address was set, click Start.")
+                self.video_frames[self.current_stream].setText("Duplicate Source / Stream ID. \n Please select a different source")   
+            
 
     def CheckLocationAndRespondersInput(self):
         print(self.locations)
         print(self.responders)
-        print(len(self.locations[self.current_stream]) > 0 and len(self.responders[0]) == 10 and len(self.responders[1]) == 10)
-        if len(self.locations[self.current_stream]) > 0 and len(self.responders[0]) == 10 and len(self.responders[1]) == 10:
+        print(len(self.locations[self.current_stream]) > 0 and len(self.responders[0]) == 10 and len(self.responders[1]) == 10 and (self.res_cnum0.text() != self.res_cnum1.text()))
+    
+        
+        if len(self.locations[self.current_stream]) > 0 and len(self.responders[0]) == 10 and len(self.responders[1]) == 10 and (self.res_cnum0.text() != self.res_cnum1.text()):
             self.start_button.setEnabled(True)
             self.stop_button.setEnabled(True)
         else:
             self.start_button.setEnabled(False)
             self.stop_button.setEnabled(False)
 
+        if (len(self.res_cnum0.text()) < 10):
+            self.res_cnum0.setStyleSheet("border: 2px solid red;")
+        if (len(self.res_cnum1.text()) < 10):
+            self.res_cnum1.setStyleSheet("border: 2px solid red;")
+        if (self.res_cnum0.text() == self.res_cnum1.text()):
+            self.res_cnum0.setStyleSheet("border: 2px solid red;")
+            self.res_cnum1.setStyleSheet("border: 2px solid red;")
+
+        if (len(self.res_cnum0.text()) == 10 and self.res_cnum0.text() != self.res_cnum1.text()):
+            self.res_cnum0.setStyleSheet("")
+        if (len(self.res_cnum1.text()) == 10 and self.res_cnum0.text() != self.res_cnum1.text()):
+            self.res_cnum1.setStyleSheet("")
+
+        
     def HandleVideoClick(self):
         self.previous_stream = self.current_stream
         self.current_stream = int(self.sender().objectName()[-1])
@@ -315,9 +362,27 @@ class MainWidget(QWidget, Ui_MainWidget):
         self.CheckLocationAndRespondersInput()
 
     def OnEnterLocation(self):
+    
         self.locformat = self.sender().text() + (31 - len(self.sender().text())) * " " + "."
-        self.locations[int(self.sender().objectName()[-1])] = self.locformat
+        self.check_duplicate_loc = self.find_duplicate_key(self.locations, self.locformat)
+        self.loc_ID = int(self.sender().objectName()[-1])
+        self.locations[self.loc_ID] = self.locformat
+        print("check duplicate",self.check_duplicate_loc)
         self.CheckLocationAndRespondersInput()
+
+        if self.check_duplicate_loc is not None:
+            self.loc_edits[self.check_duplicate_loc].setStyleSheet("border: 2px solid red;")
+            self.loc_edits[self.loc_ID].setStyleSheet("border: 2px solid red;")
+            self.start_button.setEnabled(False)
+            self.stop_button.setEnabled(False)
+        else:
+            for item in self.loc_edits:
+                self.loc_edits[item].setStyleSheet("")
+            #self.loc_edits[self.loc_ID].setStyleSheet("")
+            self.start_button.setEnabled(True)
+            self.stop_button.setEnabled(True)
+
+
 
     def OnLockInput(self):
         self.sender().setEnabled(False)
@@ -334,7 +399,6 @@ class MainWidget(QWidget, Ui_MainWidget):
             self.sender().setStyleSheet("border: 2px solid red;")
         
         self.responders[int(self.sender().objectName()[-1])] = self.sender().text()
-        self.CheckResponderInputLength()
         self.CheckLocationAndRespondersInput()
     
     def CheckResponderInputLength(self):
@@ -342,6 +406,20 @@ class MainWidget(QWidget, Ui_MainWidget):
             self.res_cnum0.setStyleSheet("border: 2px solid red;")
         if (len(self.res_cnum1.text()) < 10):
             self.res_cnum1.setStyleSheet("border: 2px solid red;")
+        if (self.res_cnum0.text() == self.res_cnum1.text()):
+            self.res_cnum0.setStyleSheet("border: 2px solid red;")
+            self.res_cnum1.setStyleSheet("border: 2px solid red;")
+
+    def find_duplicate_key(self, dictionary, search_string):
+        print("Dictionary",dictionary)
+        for key, value in dictionary.items():
+            if value == search_string:
+                return key
+        return None
+
+    def showReports(self):
+        os.startfile("Logs.txt")
+
 
     def closeEvent(self, event):
         self.StopThreads()
@@ -361,14 +439,15 @@ def reset():
     print("Resetting..")
     serialcomm.write(b"0\r\n")
 #-------------------ARDUINO RELATED-------------------------#
+try:
+    serialcomm = serial.Serial("COM3",9600)
+    time.sleep(2)
+except:
+    print("Already opened.")
 
 if __name__ == '__main__':
     freeze_support()
-    try:
-        serialcomm = serial.Serial("COM3",9600)
-        time.sleep(2)
-    except:
-        print("Already opened.")
+    
 
     app = QApplication(sys.argv)
 

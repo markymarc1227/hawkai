@@ -1,0 +1,6 @@
+Accident Data:
+
+Time: 01:11pm Camera: 1 Location: dfdfsdf. Sent to: +639260065257 and +639260065256
+Time: 01:12pm Camera: 2 Location: gfg. Sent to: +639260065257 and +639260065256
+Time: 02:27pm Camera: 1 Location: Barangay1. Sent to: +639260065257 and +639260065259
+Time: 02:28pm Camera: 2 Location: Barangay2. Sent to: +639260065257 and +639260065259

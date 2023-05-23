@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHBoxLayout,
+    QLabel, QPushButton, QSizePolicy, QSpacerItem,
+    QVBoxLayout, QWidget)
 
 from QLabel_2 import clickable_Qlabel
 from QLineEdit_2 import doubleClickable_QLineEdit
@@ -37,13 +37,13 @@ class Ui_MainWidget(object):
         MainWidget.setWindowIcon(icon)
         MainWidget.setWindowOpacity(1.000000000000000)
         MainWidget.setAutoFillBackground(False)
-        self.widget = QWidget(MainWidget)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(10, 0, 1251, 656))
-        self.verticalLayout_9 = QVBoxLayout(self.widget)
-        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
-        self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
-        self.banner = QLabel(self.widget)
+        self.layoutWidget = QWidget(MainWidget)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(10, 0, 1261, 661))
+        self.verticalLayout_7 = QVBoxLayout(self.layoutWidget)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.banner = QLabel(self.layoutWidget)
         self.banner.setObjectName(u"banner")
         self.banner.setEnabled(True)
         sizePolicy = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Preferred)
@@ -55,11 +55,11 @@ class Ui_MainWidget(object):
         self.banner.setPixmap(QPixmap(u":/img_resources/new_banner.png"))
         self.banner.setScaledContents(False)
 
-        self.verticalLayout_9.addWidget(self.banner)
+        self.verticalLayout_7.addWidget(self.banner)
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.time_comp = QLabel(self.widget)
+        self.time_comp = QLabel(self.layoutWidget)
         self.time_comp.setObjectName(u"time_comp")
         font = QFont()
         font.setFamilies([u"OCR A Extended"])
@@ -72,7 +72,7 @@ class Ui_MainWidget(object):
 
         self.horizontalLayout.addWidget(self.time_comp)
 
-        self.date_comp = QLabel(self.widget)
+        self.date_comp = QLabel(self.layoutWidget)
         self.date_comp.setObjectName(u"date_comp")
         self.date_comp.setFont(font)
         self.date_comp.setLayoutDirection(Qt.LeftToRight)
@@ -81,7 +81,7 @@ class Ui_MainWidget(object):
 
         self.horizontalLayout.addWidget(self.date_comp)
 
-        self.day_comp = QLabel(self.widget)
+        self.day_comp = QLabel(self.layoutWidget)
         self.day_comp.setObjectName(u"day_comp")
         self.day_comp.setFont(font)
         self.day_comp.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
@@ -90,7 +90,7 @@ class Ui_MainWidget(object):
         self.horizontalLayout.addWidget(self.day_comp)
 
 
-        self.verticalLayout_9.addLayout(self.horizontalLayout)
+        self.verticalLayout_7.addLayout(self.horizontalLayout)
 
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
@@ -102,7 +102,7 @@ class Ui_MainWidget(object):
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.selector_0 = QLabel(self.widget)
+        self.selector_0 = QLabel(self.layoutWidget)
         self.selector_0.setObjectName(u"selector_0")
         sizePolicy1 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
@@ -115,7 +115,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout.addWidget(self.selector_0, 0, Qt.AlignHCenter)
 
-        self.video_frame_0 = clickable_Qlabel(self.widget)
+        self.video_frame_0 = clickable_Qlabel(self.layoutWidget)
         self.video_frame_0.setObjectName(u"video_frame_0")
         self.video_frame_0.setMinimumSize(QSize(360, 180))
         self.video_frame_0.setMaximumSize(QSize(360, 180))
@@ -132,7 +132,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout.addWidget(self.video_frame_0, 0, Qt.AlignHCenter)
 
-        self.loc_0 = doubleClickable_QLineEdit(self.widget)
+        self.loc_0 = doubleClickable_QLineEdit(self.layoutWidget)
         self.loc_0.setObjectName(u"loc_0")
         self.loc_0.setMinimumSize(QSize(360, 0))
         self.loc_0.setMaximumSize(QSize(360, 16777215))
@@ -147,7 +147,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_3 = QVBoxLayout()
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.selector_2 = QLabel(self.widget)
+        self.selector_2 = QLabel(self.layoutWidget)
         self.selector_2.setObjectName(u"selector_2")
         sizePolicy2 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         sizePolicy2.setHorizontalStretch(0)
@@ -160,7 +160,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_3.addWidget(self.selector_2, 0, Qt.AlignHCenter)
 
-        self.video_frame_2 = clickable_Qlabel(self.widget)
+        self.video_frame_2 = clickable_Qlabel(self.layoutWidget)
         self.video_frame_2.setObjectName(u"video_frame_2")
         self.video_frame_2.setMinimumSize(QSize(360, 180))
         self.video_frame_2.setMaximumSize(QSize(360, 180))
@@ -172,7 +172,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_3.addWidget(self.video_frame_2, 0, Qt.AlignHCenter)
 
-        self.loc_2 = doubleClickable_QLineEdit(self.widget)
+        self.loc_2 = doubleClickable_QLineEdit(self.layoutWidget)
         self.loc_2.setObjectName(u"loc_2")
         self.loc_2.setMinimumSize(QSize(360, 0))
         self.loc_2.setMaximumSize(QSize(360, 16777215))
@@ -194,7 +194,7 @@ class Ui_MainWidget(object):
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.selector_1 = QLabel(self.widget)
+        self.selector_1 = QLabel(self.layoutWidget)
         self.selector_1.setObjectName(u"selector_1")
         sizePolicy1.setHeightForWidth(self.selector_1.sizePolicy().hasHeightForWidth())
         self.selector_1.setSizePolicy(sizePolicy1)
@@ -204,7 +204,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_2.addWidget(self.selector_1, 0, Qt.AlignHCenter)
 
-        self.video_frame_1 = clickable_Qlabel(self.widget)
+        self.video_frame_1 = clickable_Qlabel(self.layoutWidget)
         self.video_frame_1.setObjectName(u"video_frame_1")
         self.video_frame_1.setMinimumSize(QSize(360, 180))
         self.video_frame_1.setMaximumSize(QSize(360, 180))
@@ -216,7 +216,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_2.addWidget(self.video_frame_1, 0, Qt.AlignHCenter)
 
-        self.loc_1 = doubleClickable_QLineEdit(self.widget)
+        self.loc_1 = doubleClickable_QLineEdit(self.layoutWidget)
         self.loc_1.setObjectName(u"loc_1")
         self.loc_1.setMinimumSize(QSize(360, 0))
         self.loc_1.setMaximumSize(QSize(360, 16777215))
@@ -229,7 +229,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_4 = QVBoxLayout()
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.selector_3 = QLabel(self.widget)
+        self.selector_3 = QLabel(self.layoutWidget)
         self.selector_3.setObjectName(u"selector_3")
         sizePolicy1.setHeightForWidth(self.selector_3.sizePolicy().hasHeightForWidth())
         self.selector_3.setSizePolicy(sizePolicy1)
@@ -239,7 +239,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_4.addWidget(self.selector_3, 0, Qt.AlignHCenter)
 
-        self.video_frame_3 = clickable_Qlabel(self.widget)
+        self.video_frame_3 = clickable_Qlabel(self.layoutWidget)
         self.video_frame_3.setObjectName(u"video_frame_3")
         self.video_frame_3.setMinimumSize(QSize(360, 180))
         self.video_frame_3.setMaximumSize(QSize(360, 180))
@@ -251,7 +251,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_4.addWidget(self.video_frame_3, 0, Qt.AlignHCenter)
 
-        self.loc_3 = doubleClickable_QLineEdit(self.widget)
+        self.loc_3 = doubleClickable_QLineEdit(self.layoutWidget)
         self.loc_3.setObjectName(u"loc_3")
         self.loc_3.setMinimumSize(QSize(360, 0))
         self.loc_3.setMaximumSize(QSize(360, 16777215))
@@ -271,11 +271,21 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_5 = QVBoxLayout()
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.video_file_button = QPushButton(self.widget)
-        self.video_file_button.setObjectName(u"video_file_button")
+        self.show_report = QPushButton(self.layoutWidget)
+        self.show_report.setObjectName(u"show_report")
         sizePolicy3 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
         sizePolicy3.setHorizontalStretch(0)
         sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.show_report.sizePolicy().hasHeightForWidth())
+        self.show_report.setSizePolicy(sizePolicy3)
+        self.show_report.setMinimumSize(QSize(200, 0))
+        self.show_report.setMaximumSize(QSize(200, 16777215))
+        self.show_report.setCursor(QCursor(Qt.PointingHandCursor))
+
+        self.verticalLayout_5.addWidget(self.show_report, 0, Qt.AlignRight)
+
+        self.video_file_button = QPushButton(self.layoutWidget)
+        self.video_file_button.setObjectName(u"video_file_button")
         sizePolicy3.setHeightForWidth(self.video_file_button.sizePolicy().hasHeightForWidth())
         self.video_file_button.setSizePolicy(sizePolicy3)
         self.video_file_button.setMinimumSize(QSize(200, 0))
@@ -284,7 +294,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_5.addWidget(self.video_file_button, 0, Qt.AlignRight)
 
-        self.add_ip_cam = QPushButton(self.widget)
+        self.add_ip_cam = QPushButton(self.layoutWidget)
         self.add_ip_cam.setObjectName(u"add_ip_cam")
         sizePolicy3.setHeightForWidth(self.add_ip_cam.sizePolicy().hasHeightForWidth())
         self.add_ip_cam.setSizePolicy(sizePolicy3)
@@ -294,7 +304,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_5.addWidget(self.add_ip_cam, 0, Qt.AlignRight)
 
-        self.open_camera_button = QPushButton(self.widget)
+        self.open_camera_button = QPushButton(self.layoutWidget)
         self.open_camera_button.setObjectName(u"open_camera_button")
         sizePolicy3.setHeightForWidth(self.open_camera_button.sizePolicy().hasHeightForWidth())
         self.open_camera_button.setSizePolicy(sizePolicy3)
@@ -304,7 +314,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_5.addWidget(self.open_camera_button, 0, Qt.AlignRight)
 
-        self.start_button = QPushButton(self.widget)
+        self.start_button = QPushButton(self.layoutWidget)
         self.start_button.setObjectName(u"start_button")
         self.start_button.setEnabled(False)
         sizePolicy3.setHeightForWidth(self.start_button.sizePolicy().hasHeightForWidth())
@@ -315,7 +325,7 @@ class Ui_MainWidget(object):
 
         self.verticalLayout_5.addWidget(self.start_button, 0, Qt.AlignRight)
 
-        self.stop_button = QPushButton(self.widget)
+        self.stop_button = QPushButton(self.layoutWidget)
         self.stop_button.setObjectName(u"stop_button")
         self.stop_button.setEnabled(False)
         sizePolicy3.setHeightForWidth(self.stop_button.sizePolicy().hasHeightForWidth())
@@ -332,15 +342,15 @@ class Ui_MainWidget(object):
         self.horizontalLayout_4.addLayout(self.verticalLayout_5)
 
 
-        self.verticalLayout_9.addLayout(self.horizontalLayout_4)
+        self.verticalLayout_7.addLayout(self.horizontalLayout_4)
 
-        self.horizontalLayout_5 = QHBoxLayout()
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalSpacer_4 = QSpacerItem(90, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
 
-        self.horizontalLayout_5.addItem(self.horizontalSpacer_4)
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_4)
 
-        self.prediction_label = QLabel(self.widget)
+        self.prediction_label = QLabel(self.layoutWidget)
         self.prediction_label.setObjectName(u"prediction_label")
         sizePolicy4 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Preferred)
         sizePolicy4.setHorizontalStretch(0)
@@ -353,12 +363,12 @@ class Ui_MainWidget(object):
         font2.setPointSize(16)
         self.prediction_label.setFont(font2)
 
-        self.horizontalLayout_5.addWidget(self.prediction_label)
+        self.horizontalLayout_2.addWidget(self.prediction_label)
 
-        self.verticalLayout_7 = QVBoxLayout()
-        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.verticalLayout_7.setContentsMargins(0, -1, -1, -1)
-        self.res_label1 = QLabel(self.widget)
+        self.gridLayout = QGridLayout()
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.gridLayout.setContentsMargins(0, 0, 0, -1)
+        self.res_label1 = QLabel(self.layoutWidget)
         self.res_label1.setObjectName(u"res_label1")
         sizePolicy5 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Maximum)
         sizePolicy5.setHorizontalStretch(0)
@@ -366,59 +376,85 @@ class Ui_MainWidget(object):
         sizePolicy5.setHeightForWidth(self.res_label1.sizePolicy().hasHeightForWidth())
         self.res_label1.setSizePolicy(sizePolicy5)
         self.res_label1.setMinimumSize(QSize(300, 0))
+        self.res_label1.setMaximumSize(QSize(300, 16777215))
         font3 = QFont()
         font3.setPointSize(10)
         self.res_label1.setFont(font3)
 
-        self.verticalLayout_7.addWidget(self.res_label1, 0, Qt.AlignLeft)
+        self.gridLayout.addWidget(self.res_label1, 0, 0, 1, 2)
 
-        self.res_cnum0 = doubleClickable_QLineEdit(self.widget)
+        self.c_code_0 = QLabel(self.layoutWidget)
+        self.c_code_0.setObjectName(u"c_code_0")
+        sizePolicy6 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
+        sizePolicy6.setHorizontalStretch(0)
+        sizePolicy6.setVerticalStretch(0)
+        sizePolicy6.setHeightForWidth(self.c_code_0.sizePolicy().hasHeightForWidth())
+        self.c_code_0.setSizePolicy(sizePolicy6)
+        self.c_code_0.setMaximumSize(QSize(25, 16777215))
+
+        self.gridLayout.addWidget(self.c_code_0, 1, 0, 1, 1)
+
+        self.res_cnum0 = doubleClickable_QLineEdit(self.layoutWidget)
         self.res_cnum0.setObjectName(u"res_cnum0")
-        sizePolicy1.setHeightForWidth(self.res_cnum0.sizePolicy().hasHeightForWidth())
-        self.res_cnum0.setSizePolicy(sizePolicy1)
+        sizePolicy2.setHeightForWidth(self.res_cnum0.sizePolicy().hasHeightForWidth())
+        self.res_cnum0.setSizePolicy(sizePolicy2)
         self.res_cnum0.setMinimumSize(QSize(300, 0))
+        self.res_cnum0.setMaximumSize(QSize(300, 16777215))
         self.res_cnum0.setStyleSheet(u"")
         self.res_cnum0.setMaxLength(10)
 
-        self.verticalLayout_7.addWidget(self.res_cnum0, 0, Qt.AlignLeft)
+        self.gridLayout.addWidget(self.res_cnum0, 1, 1, 1, 1)
 
-        self.res_label2 = QLabel(self.widget)
+        self.res_label2 = QLabel(self.layoutWidget)
         self.res_label2.setObjectName(u"res_label2")
         sizePolicy1.setHeightForWidth(self.res_label2.sizePolicy().hasHeightForWidth())
         self.res_label2.setSizePolicy(sizePolicy1)
         self.res_label2.setMinimumSize(QSize(300, 0))
         self.res_label2.setFont(font3)
 
-        self.verticalLayout_7.addWidget(self.res_label2, 0, Qt.AlignLeft)
+        self.gridLayout.addWidget(self.res_label2, 2, 0, 1, 2)
 
-        self.res_cnum1 = doubleClickable_QLineEdit(self.widget)
+        self.c_code_1 = QLabel(self.layoutWidget)
+        self.c_code_1.setObjectName(u"c_code_1")
+        sizePolicy6.setHeightForWidth(self.c_code_1.sizePolicy().hasHeightForWidth())
+        self.c_code_1.setSizePolicy(sizePolicy6)
+        self.c_code_1.setMaximumSize(QSize(25, 16777215))
+
+        self.gridLayout.addWidget(self.c_code_1, 3, 0, 1, 1)
+
+        self.res_cnum1 = doubleClickable_QLineEdit(self.layoutWidget)
         self.res_cnum1.setObjectName(u"res_cnum1")
-        sizePolicy1.setHeightForWidth(self.res_cnum1.sizePolicy().hasHeightForWidth())
-        self.res_cnum1.setSizePolicy(sizePolicy1)
+        sizePolicy2.setHeightForWidth(self.res_cnum1.sizePolicy().hasHeightForWidth())
+        self.res_cnum1.setSizePolicy(sizePolicy2)
         self.res_cnum1.setMinimumSize(QSize(300, 0))
+        self.res_cnum1.setMaximumSize(QSize(300, 16777215))
         self.res_cnum1.setMaxLength(10)
 
-        self.verticalLayout_7.addWidget(self.res_cnum1, 0, Qt.AlignLeft)
+        self.gridLayout.addWidget(self.res_cnum1, 3, 1, 1, 1)
 
 
-        self.horizontalLayout_5.addLayout(self.verticalLayout_7)
+        self.horizontalLayout_2.addLayout(self.gridLayout)
 
-        self.clear_predictions = QPushButton(self.widget)
+        self.horizontalSpacer_5 = QSpacerItem(160, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_5)
+
+        self.clear_predictions = QPushButton(self.layoutWidget)
         self.clear_predictions.setObjectName(u"clear_predictions")
-        sizePolicy6 = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
-        sizePolicy6.setHorizontalStretch(0)
-        sizePolicy6.setVerticalStretch(0)
-        sizePolicy6.setHeightForWidth(self.clear_predictions.sizePolicy().hasHeightForWidth())
-        self.clear_predictions.setSizePolicy(sizePolicy6)
+        sizePolicy7 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        sizePolicy7.setHorizontalStretch(0)
+        sizePolicy7.setVerticalStretch(0)
+        sizePolicy7.setHeightForWidth(self.clear_predictions.sizePolicy().hasHeightForWidth())
+        self.clear_predictions.setSizePolicy(sizePolicy7)
         self.clear_predictions.setMinimumSize(QSize(200, 50))
         self.clear_predictions.setMaximumSize(QSize(200, 16777215))
         self.clear_predictions.setFont(font3)
         self.clear_predictions.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.horizontalLayout_5.addWidget(self.clear_predictions)
+        self.horizontalLayout_2.addWidget(self.clear_predictions, 0, Qt.AlignRight)
 
 
-        self.verticalLayout_9.addLayout(self.horizontalLayout_5)
+        self.verticalLayout_7.addLayout(self.horizontalLayout_2)
 
 
         self.retranslateUi(MainWidget)
@@ -447,6 +483,7 @@ class Ui_MainWidget(object):
         self.selector_3.setText("")
         self.video_frame_3.setText(QCoreApplication.translate("MainWidget", u"<html><head/><body><p><span style=\" font-size:10pt; font-weight:700;\">Stream # 4</span></p><p><span style=\" font-size:10pt;\">Load a video stream by clicking </span></p><p><span style=\" font-size:10pt;\">&quot;Select Video File&quot;,</span></p><p><span style=\" font-size:10pt;\">&quot;Add IP Feed&quot;,</span></p><p><span style=\" font-size:10pt;\">or &quot;Open Camera&quot;.</span></p></body></html>", None))
         self.loc_3.setPlaceholderText(QCoreApplication.translate("MainWidget", u"Enter Location 4", None))
+        self.show_report.setText(QCoreApplication.translate("MainWidget", u"Show Logs", None))
         self.video_file_button.setText(QCoreApplication.translate("MainWidget", u"Select Video File", None))
         self.add_ip_cam.setText(QCoreApplication.translate("MainWidget", u"Add IP Feed", None))
         self.open_camera_button.setText(QCoreApplication.translate("MainWidget", u"Open Camera", None))
@@ -457,8 +494,10 @@ class Ui_MainWidget(object):
         self.stop_button.setText(QCoreApplication.translate("MainWidget", u"Stop", None))
         self.prediction_label.setText(QCoreApplication.translate("MainWidget", u"PREDICTIONS", None))
         self.res_label1.setText(QCoreApplication.translate("MainWidget", u"Enter Responder 1 Number:", None))
+        self.c_code_0.setText(QCoreApplication.translate("MainWidget", u"+63", None))
         self.res_cnum0.setPlaceholderText(QCoreApplication.translate("MainWidget", u"e.g. 9*********", None))
         self.res_label2.setText(QCoreApplication.translate("MainWidget", u"Enter Responder 2 Number:", None))
+        self.c_code_1.setText(QCoreApplication.translate("MainWidget", u"+63", None))
         self.res_cnum1.setText("")
         self.res_cnum1.setPlaceholderText(QCoreApplication.translate("MainWidget", u"e.g. 9*********", None))
         self.clear_predictions.setText(QCoreApplication.translate("MainWidget", u"Clear Predictions / \n"
