@@ -228,8 +228,9 @@ class MainWidget(QWidget, Ui_MainWidget):
             #accident(self.alarm_message)
 
             with open('Logs.txt', 'a') as f:
+                self.accident_date = self.current_datetime.toString("MM/dd/yyyy")
                 self.accident_locformat = self.locations[prediction].replace(" ","")
-                self.accident_data = f"\nTime: {self.alarm_time} Camera: {str(prediction+1)} Location: {self.accident_locformat} Sent to: +63{self.responders[0]} and +63{self.responders[1]}"
+                self.accident_data = f"\nDate: {self.accident_date} Time: {self.alarm_time} Camera: {str(prediction+1)} Location: {self.accident_locformat} Sent to: +63{self.responders[0]} and +63{self.responders[1]}"
                 f.write(self.accident_data)
 
             
@@ -281,11 +282,11 @@ class MainWidget(QWidget, Ui_MainWidget):
         self.video_frame_3.setPixmap(QPixmap.fromImage(Image))
 
     def UpdateDateTime(self):
-        current_datetime = QDateTime(QDateTime.currentDateTime())
-        self.alarm_time = current_datetime.toString("hh:mmap")
-        self.date_comp.setText(current_datetime.toString("MM/dd/yyyy"))
-        self.time_comp.setText(current_datetime.toString("hh:mm:ss ap"))
-        self.day_comp.setText(current_datetime.toString("dddd"))
+        self.current_datetime = QDateTime(QDateTime.currentDateTime())
+        self.alarm_time = self.current_datetime.toString("hh:mmap")
+        self.date_comp.setText(self.current_datetime.toString("MM/dd/yyyy"))
+        self.time_comp.setText(self.current_datetime.toString("hh:mm:ss ap"))
+        self.day_comp.setText(self.current_datetime.toString("dddd"))
 
     def SelectVideo(self):
         file_name,_ = QFileDialog.getOpenFileName(self, "Open File",
