@@ -14,6 +14,6 @@ How to run:
 7. Run the command "python main.py".
 
 --OR--
-1. Download ZIP file at: https://drive.google.com/file/d/1SURe_2fb5wCKfZfq9WAfCkQYxRU95q34/view?usp=share_link
+1. Download ZIP file at: https://drive.google.com/file/d/193ncL7Rr8dI7x45qfcjqYG3UpWR6RN5T/view?usp=share_link
 2. Extract the file.
-3. In the extracted folder, go to the dist folder and run HawkAI.exe.
+3. In the extracted folder, go to the dist folder and run HawkAI.exe application.
