@@ -1,9 +1,11 @@
 # HawkAI
 
+This project aims to detect car crash accidents simultaneously in four monitoring streams using a modified VGG19 model, OpenVino, and PySide6.
+
 How to run:
 
 1. Clone this repository.
-2. Setup/import the Conda environment using the environment.yml file.  
+2. Setup/import a Conda environment using the environment.yml file.  
    Use command: "conda env create -n ENVNAME --file environment.yml"  
 3. Activate the imported Conda environment.  
    Use command: "conda activate ENVNAME"  
